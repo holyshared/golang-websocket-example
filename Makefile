@@ -6,7 +6,7 @@ setup:
 .PHONY: build
 
 build:
-	go build server.go
+	go build -o server
 
 .PHONY: clean
 

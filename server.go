@@ -2,11 +2,11 @@ package main
 
 import (
   "net/http"
-  "io"
-  "encoding/json"
+//  "io"
+  //"encoding/json"
   "golang.org/x/net/websocket"
 )
-
+/*
 type Message struct {
   Message string `json:"message"`
 }
@@ -20,18 +20,19 @@ func (m *Message) WriteTo(w io.Writer) (n int64, err error) {
 
   return int64(length), werr
 }
-
+*/
 /*
 func (m *Message) MarshalJSON() ([]byte, error) {
   return json.Marshal(m)
 }
 */
+/*
 func ResponseMessage(message string) *Message {
   return &Message {
     Message: message,
   }
 }
-
+*/
 func EchoServer(ws *websocket.Conn) {
   message := ResponseMessage("ok!!")
   message.WriteTo(ws)
