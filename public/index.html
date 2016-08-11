@@ -29,6 +29,7 @@
       function onOpen(evt) { 
         writeToScreen("CONNECTED"); 
         doSend({
+          type: 'test',
           message: "websocketにメッセージを送信"
         }); 
       }
