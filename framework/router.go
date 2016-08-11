@@ -1,7 +1,6 @@
 package framework
 
 import (
-  "golang.org/x/net/websocket"
   "errors"
 )
 
@@ -31,16 +30,13 @@ func (router *Router) Lookup(route string) (Handler, error) {
   return handler, nil
 }
 
-func (router *Router) Emit(msgType string, ws *websocket.Conn) error {
+func (router *Router) Emit(msgType string, socket *Socket) error {
   handler, err := router.Lookup(msgType)
 
   if err != nil {
     return err
   }
 
-  socket := &Socket {
-    ws: ws,
-  }
   handler(socket)
 
   return nil

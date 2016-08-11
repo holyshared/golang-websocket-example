@@ -25,5 +25,10 @@ func (app *WebsocketServer) Handle(ws *websocket.Conn) {
     return
   }
 
-  app.router.Emit(message.Type, ws)
+  socket := &Socket {
+    ws: ws,
+    msg: message,
+  }
+
+  app.router.Emit(message.Type, socket)
 }

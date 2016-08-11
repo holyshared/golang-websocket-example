@@ -30,7 +30,12 @@
         writeToScreen("CONNECTED"); 
         doSend({
           type: 'test',
-          message: "websocketにメッセージを送信"
+          body: {
+            message: "websocketにメッセージを送信",
+            aa: {
+              aaa: 'a'
+            }
+          }
         }); 
       }
 

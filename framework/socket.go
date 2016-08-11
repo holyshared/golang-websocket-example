@@ -7,6 +7,7 @@ import (
 
 type Socket struct {
   ws *websocket.Conn
+  msg *SocketMessage
 }
 
 func (socket *Socket) Send(v interface{}) {
