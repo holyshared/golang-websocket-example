@@ -8,7 +8,10 @@ import (
 )
 
 func main() {
-  server := framework.NewWebsocketServer(application.Routes)
+  server := framework.NewWebsocketServer(
+    application.Routes,
+    application.Logger,
+  )
 
   http.Handle("/", http.FileServer( http.Dir("./public") ))
   http.Handle("/echo", websocket.Handler(server.Handle))

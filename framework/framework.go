@@ -2,17 +2,18 @@ package framework
 
 import (
   "golang.org/x/net/websocket"
-  "fmt"
 )
 
-func NewWebsocketServer(handlers RouteHandlers) *WebsocketServer {
+func NewWebsocketServer(handlers RouteHandlers, logger Logger) *WebsocketServer {
   return &WebsocketServer {
     router: NewRouter(handlers),
+    logger: logger,
   }
 }
 
 type WebsocketServer struct {
   router *Router
+  logger Logger
 }
 
 func (app *WebsocketServer) Handle(ws *websocket.Conn) {
@@ -20,8 +21,10 @@ func (app *WebsocketServer) Handle(ws *websocket.Conn) {
 
   err := websocket.JSON.Receive(ws, &message)
 
+  app.logger.Info("receive a message")
+
   if err != nil {
-    fmt.Errorf("Unkown message error: %v", err)
+    app.logger.Warnf("unknown message error: %v", err)
     return
   }
 

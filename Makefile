@@ -2,6 +2,7 @@
 
 setup:
 	go get golang.org/x/net/websocket
+	go get github.com/Sirupsen/logrus
 
 .PHONY: build
 
