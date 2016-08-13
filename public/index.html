@@ -46,7 +46,7 @@
       function onMessage(evt) { 
         console.log(evt);
         var msg = JSON.parse(evt.data)
-        writeToScreen('<span style="color: blue;">RESPONSE: ' + msg.message + '</span>'); 
+        writeToScreen('<span style="color: blue;">RESPONSE: ' + msg.body + '</span>'); 
         websocket.close(); 
       }
 

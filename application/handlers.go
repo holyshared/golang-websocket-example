@@ -5,5 +5,5 @@ import (
 )
 
 func Test(socket *framework.Socket) {
-  socket.Send("ok")
+  socket.Send(Response("test", "test"))
 }
