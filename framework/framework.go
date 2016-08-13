@@ -21,7 +21,7 @@ func (app *WebsocketServer) Handle(ws *websocket.Conn) {
 
   err := websocket.JSON.Receive(ws, &message)
 
-  app.logger.Info("receive a message")
+  app.logger.Infof("receive a message: %v", message)
 
   if err != nil {
     app.logger.Warnf("unknown message error: %v", err)

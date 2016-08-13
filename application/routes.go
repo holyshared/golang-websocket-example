@@ -7,5 +7,6 @@ import (
 var (
   Routes = map[string]framework.Handler {
     "test": Test,
+    "ping": framework.PongHandler,
   }
 )
