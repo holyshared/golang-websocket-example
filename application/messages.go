@@ -1,13 +1,9 @@
 package application
 
-import (
-  "github.com/holyshared/golang-websocket-example/framework"
-)
-
-func Response(type string, body interface{}) *ResponseMessage  {
+func Response(msgType string, msgBody interface{}) *ResponseMessage  {
   return &ResponseMessage {
-    Type: type,
-    Body: body,
+    Type: msgType,
+    Body: msgBody,
   }
 }
 

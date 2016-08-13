@@ -31,6 +31,7 @@ func (app *WebsocketServer) Handle(ws *websocket.Conn) {
   socket := &Socket {
     ws: ws,
     msg: message,
+    logger: app.logger,
   }
 
   app.router.Emit(message.Type, socket)
