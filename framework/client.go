@@ -25,7 +25,7 @@ func (client *Client) Read() {
   for {
     select {
       default:
-        var message *SocketMessage
+        var message *Message
         err := websocket.JSON.Receive(client.ws, &message)
 
         if err != nil {

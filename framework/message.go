@@ -1,18 +1,13 @@
 package framework
 
-type SocketMessage struct {
+type Message struct {
   Type string `json:"type"`
   Body interface{} `json:"body"`
 }
 
-func Response(msgType string, msgBody interface{}) *ResponseMessage  {
-  return &ResponseMessage {
+func Response(msgType string, msgBody interface{}) *Message  {
+  return &Message {
     Type: msgType,
     Body: msgBody,
   }
-}
-
-type ResponseMessage struct {
-  Type string `json:"type"`
-  Body interface{} `json:"body"`
 }
