@@ -1,7 +1,7 @@
 package framework
 
-type Handler func(socket *Socket)
+type Handler func(client *Client)
 
-func PongHandler(socket *Socket) {
-  socket.Send(Response("pong", nil))
+func PongHandler(client *Client) {
+  client.Send(Response("pong", nil))
 }

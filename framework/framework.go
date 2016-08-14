@@ -6,33 +6,30 @@ import (
 
 func NewWebsocketServer(handlers RouteHandlers, logger Logger) *WebsocketServer {
   return &WebsocketServer {
+    identityNumber: 0,
     router: NewRouter(handlers),
+    ClientContainer: NewClientContainer(),
     logger: logger,
   }
 }
 
 type WebsocketServer struct {
+  identityNumber int
   router *Router
   logger Logger
+  *ClientContainer
 }
 
-func (app *WebsocketServer) Handle(ws *websocket.Conn) {
-  var message *SocketMessage
+func (server *WebsocketServer) Handle(ws *websocket.Conn) {
+  server.identityNumber++
+  server.logger.Infof("connected: %v", server.identityNumber)
 
-  err := websocket.JSON.Receive(ws, &message)
-
-  app.logger.Infof("receive a message: %v", message)
-
-  if err != nil {
-    app.logger.Warnf("unknown message error: %v", err)
-    return
-  }
-
-  socket := &Socket {
+  client := &Client {
+    id: server.identityNumber,
     ws: ws,
-    msg: message,
-    logger: app.logger,
+    router: server.router,
+    logger: server.logger,
   }
-
-  app.router.Emit(message.Type, socket)
+  server.Add(client)
+  client.Read()
 }

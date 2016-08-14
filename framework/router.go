@@ -30,14 +30,14 @@ func (router *Router) Lookup(route string) (Handler, error) {
   return handler, nil
 }
 
-func (router *Router) Emit(msgType string, socket *Socket) error {
+func (router *Router) Emit(msgType string, client *Client) error {
   handler, err := router.Lookup(msgType)
 
   if err != nil {
     return err
   }
 
-  handler(socket)
+  handler(client)
 
   return nil
 }

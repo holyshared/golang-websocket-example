@@ -4,6 +4,6 @@ import (
   "github.com/holyshared/golang-websocket-example/framework"
 )
 
-func Test(socket *framework.Socket) {
-  socket.Send(framework.Response("test", "test"))
+func Test(client *framework.Client) {
+  client.Send(framework.Response("test", "test"))
 }
