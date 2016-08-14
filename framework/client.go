@@ -32,7 +32,7 @@ func (client *Client) Read() {
         client.logger.Info("recived message")
 
         if err != nil {
-          client.Leave()
+          client.LeaveFromServer()
           return
         }
         client.router.Emit(message.Type, client)
@@ -49,12 +49,12 @@ func (client *Client) Send(v interface{}) {
   }
 }
 
-func (client *Client) Join() {
+func (client *Client) JoinToServer() {
   client.logger.Infof("connect: %v", client.id)
   client.connectedServer.Add(client)
 }
 
-func (client *Client) Leave() {
+func (client *Client) LeaveFromServer() {
   client.logger.Infof("disconnect: %v", client.id)
 
   defer client.ws.Close()

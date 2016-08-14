@@ -6,7 +6,7 @@ import (
 
 func NewWebsocketServer(handlers RouteHandlers, logger Logger) *WebsocketServer {
   return &WebsocketServer {
-    identityNumber: 0,
+    Identity: NewIdentity(),
     router: NewRouter(handlers),
     ConnectedContainer: NewConnectedContainer(),
     logger: logger,
@@ -14,22 +14,22 @@ func NewWebsocketServer(handlers RouteHandlers, logger Logger) *WebsocketServer 
 }
 
 type WebsocketServer struct {
-  identityNumber int
   router *Router
   logger Logger
   *ConnectedContainer
+  *Identity
 }
 
 func (server *WebsocketServer) Handle(ws *websocket.Conn) {
-  server.identityNumber++
+  server.next()
 
   client := &Client {
-    id: server.identityNumber,
+    id: server.current(),
     ws: ws,
     router: server.router,
     logger: server.logger,
     connectedServer: server,
   }
-  client.Join()
+  client.JoinToServer()
   client.Read()
 }
