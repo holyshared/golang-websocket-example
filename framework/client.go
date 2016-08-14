@@ -2,7 +2,6 @@ package framework
 
 import (
   "golang.org/x/net/websocket"
-  "log"
 )
 
 func NewClient(id int, ws *websocket.Conn, router *Router, logger Logger) *Client {
@@ -29,24 +28,24 @@ func (client *Client) Read() {
         var message *SocketMessage
         err := websocket.JSON.Receive(client.ws, &message)
 
-        client.logger.Info("recived message")
-
         if err != nil {
           client.LeaveFromServer()
           return
         }
+        client.logger.Infof("recived message: %v %v", client.id, message)
         client.router.Emit(message.Type, client)
     }
   }
 }
 
 func (client *Client) Send(v interface{}) {
-  err := websocket.JSON.Send(client.ws, v) //FIXME error
+  err := websocket.JSON.Send(client.ws, v) 
 
   if err != nil {
-    log.Fatal("client.Send: %v", err.Error())
+    client.LeaveFromServer()
     return
   }
+  client.logger.Infof("send message: %v %v", client.id, v)
 }
 
 func (client *Client) JoinToServer() {
