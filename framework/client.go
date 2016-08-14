@@ -22,6 +22,7 @@ type Client struct {
 }
 
 func (client *Client) readFromConnection() {
+EXIT:
   for {
     select {
       default:
@@ -30,12 +31,13 @@ func (client *Client) readFromConnection() {
 
         if err != nil {
           client.leaveFromServer()
-          return
+          break EXIT
         }
         client.logger.Infof("recived message: %v %v", client.id, message)
         client.router.Emit(message.Type, client)
     }
   }
+  client.logger.Infof("finish message receive action")
 }
 
 func (client *Client) Send(v interface{}) {
