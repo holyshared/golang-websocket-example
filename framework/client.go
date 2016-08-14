@@ -19,6 +19,7 @@ type Client struct {
   ws *websocket.Conn
   router *Router
   logger Logger
+  connectedServer ClientContainer
 }
 
 func (client *Client) Read() {
@@ -26,12 +27,12 @@ func (client *Client) Read() {
     select {
       default:
         var message *SocketMessage
-        err := websocket.JSON.Receive(client.ws, &message) //FIXME error
+        err := websocket.JSON.Receive(client.ws, &message)
 
         client.logger.Info("recived message")
 
         if err != nil {
-          log.Fatal("client.Read: %v", err.Error())
+          client.Leave()
           return
         }
         client.router.Emit(message.Type, client)
@@ -48,20 +49,14 @@ func (client *Client) Send(v interface{}) {
   }
 }
 
-
-
-
-
-func NewClientContainer() *ClientContainer {
-  return &ClientContainer {
-    clients: map[int]*Client {},
-  }
+func (client *Client) Join() {
+  client.logger.Infof("connect: %v", client.id)
+  client.connectedServer.Add(client)
 }
 
-type ClientContainer struct {
-  clients map[int]*Client
-}
+func (client *Client) Leave() {
+  client.logger.Infof("disconnect: %v", client.id)
 
-func (c *ClientContainer) Add(client *Client) {
-  c.clients[client.id] = client
+  defer client.ws.Close()
+  client.connectedServer.Remove(client)
 }
