@@ -20,12 +20,12 @@ type WebsocketServer struct {
   *Identity
 }
 
-func (server *WebsocketServer) Handle(ws *websocket.Conn) {
+func (server *WebsocketServer) Handle(connection *websocket.Conn) {
   server.nextIdentity()
 
   client := &Client {
     id: server.currentIdentity(),
-    ws: ws,
+    connection: connection,
     router: server.router,
     logger: server.logger,
     connectedServer: server,

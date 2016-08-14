@@ -4,10 +4,10 @@ import (
   "golang.org/x/net/websocket"
 )
 
-func NewClient(id int, ws *websocket.Conn, router *Router, logger Logger) *Client {
+func NewClient(id int, connection *websocket.Conn, router *Router, logger Logger) *Client {
   return &Client {
     id: id,
-    ws: ws,
+    connection: connection,
     router: router,
     logger: logger,
   }
@@ -15,7 +15,7 @@ func NewClient(id int, ws *websocket.Conn, router *Router, logger Logger) *Clien
 
 type Client struct {
   id int
-  ws *websocket.Conn
+  connection *websocket.Conn
   router *Router
   logger Logger
   connectedServer ClientContainer
@@ -26,7 +26,7 @@ func (client *Client) Read() {
     select {
       default:
         var message *Message
-        err := websocket.JSON.Receive(client.ws, &message)
+        err := websocket.JSON.Receive(client.connection, &message)
 
         if err != nil {
           client.LeaveFromServer()
@@ -39,7 +39,7 @@ func (client *Client) Read() {
 }
 
 func (client *Client) Send(v interface{}) {
-  err := websocket.JSON.Send(client.ws, v) 
+  err := websocket.JSON.Send(client.connection, v) 
 
   if err != nil {
     client.LeaveFromServer()
@@ -56,6 +56,6 @@ func (client *Client) JoinToServer() {
 func (client *Client) LeaveFromServer() {
   client.logger.Infof("disconnect: %v", client.id)
 
-  defer client.ws.Close()
+  defer client.connection.Close()
   client.connectedServer.Remove(client)
 }
