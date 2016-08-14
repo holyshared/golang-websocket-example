@@ -21,7 +21,7 @@ type Client struct {
   connectedServer ClientContainer
 }
 
-func (client *Client) Read() {
+func (client *Client) readFromConnection() {
   for {
     select {
       default:
@@ -29,7 +29,7 @@ func (client *Client) Read() {
         err := websocket.JSON.Receive(client.connection, &message)
 
         if err != nil {
-          client.LeaveFromServer()
+          client.leaveFromServer()
           return
         }
         client.logger.Infof("recived message: %v %v", client.id, message)
@@ -42,20 +42,20 @@ func (client *Client) Send(v interface{}) {
   err := websocket.JSON.Send(client.connection, v) 
 
   if err != nil {
-    client.LeaveFromServer()
+    client.leaveFromServer()
     return
   }
   client.logger.Infof("send message: %v %v", client.id, v)
 }
 
-func (client *Client) JoinToServer() {
+func (client *Client) joinToServer() {
   client.logger.Infof("connect: %v", client.id)
-  client.connectedServer.Add(client)
+  client.connectedServer.add(client)
 }
 
-func (client *Client) LeaveFromServer() {
+func (client *Client) leaveFromServer() {
   client.logger.Infof("disconnect: %v", client.id)
 
   defer client.connection.Close()
-  client.connectedServer.Remove(client)
+  client.connectedServer.remove(client)
 }

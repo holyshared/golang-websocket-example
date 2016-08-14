@@ -30,6 +30,6 @@ func (server *WebsocketServer) Handle(connection *websocket.Conn) {
     logger: server.logger,
     connectedServer: server,
   }
-  client.JoinToServer()
-  client.Read()
+  client.joinToServer()
+  client.readFromConnection()
 }

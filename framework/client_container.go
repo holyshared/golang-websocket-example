@@ -7,18 +7,18 @@ func NewConnectedContainer() *ConnectedContainer {
 }
 
 type ClientContainer interface {
-  Add(client *Client)
-  Remove(client *Client)
+  add(client *Client)
+  remove(client *Client)
 }
 
 type ConnectedContainer struct {
   clients map[int]*Client
 }
 
-func (c *ConnectedContainer) Add(client *Client) {
+func (c *ConnectedContainer) add(client *Client) {
   c.clients[client.id] = client
 }
 
-func (c *ConnectedContainer) Remove(client *Client) {
+func (c *ConnectedContainer) remove(client *Client) {
   delete(c.clients, client.id)
 }
