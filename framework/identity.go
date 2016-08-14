@@ -10,11 +10,11 @@ type Identity struct {
   startValue int
 }
 
-func (id *Identity) next() int {
+func (id *Identity) nextIdentity() int {
   id.startValue++
   return id.startValue
 }
 
-func (id *Identity) current() int {
+func (id *Identity) currentIdentity() int {
   return id.startValue
 }

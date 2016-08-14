@@ -21,10 +21,10 @@ type WebsocketServer struct {
 }
 
 func (server *WebsocketServer) Handle(ws *websocket.Conn) {
-  server.next()
+  server.nextIdentity()
 
   client := &Client {
-    id: server.current(),
+    id: server.currentIdentity(),
     ws: ws,
     router: server.router,
     logger: server.logger,
